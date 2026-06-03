@@ -38,24 +38,26 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
   // =========================================================================
   
 
-  //lets try simple DFS
-  /* Steps
-  1. if the current cell is the target - stop
-  2. add all in bounds, non visited, non walls neighbours to stack
-  3. repeat from step 1 until stack is empty or target found
-  */
+  ///////////////////////
+  // Djikstra's algorithm
 
+
+  // for cycling the neighbouring cells
   int dr[] = {1, 0, -1, 0};
   int dc[] = {0, 1, 0, -1};
+
+
   int rows = grid.size();
   int cols = grid.at(0).size();
   
-  struct Compare {
+  // Compare operator to sort the cells in the priority queue
+  struct Compare { 
     bool operator()(const pair<int,Cell>& a, const pair<int,Cell>& b) const {
       return a.first > b.first; // smaller weight = higher priority
     }
   };
 
+  // Priority queue stores a pair containing the cell weight and the cell
   priority_queue<pair<int, Cell>, vector<pair<int, Cell>>, Compare> pq;
   vector<vector<int>> distance(rows, vector<int>(cols, INT_MAX));
 
@@ -93,16 +95,12 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
     }
   }
 
-  // this works for map 1 and 2 but not for map 3
-  // if possible to use priority queue, use djikstra algorithm
-  //
-
   return visited;
 }
 
 
 // First approach, simple DFS - will find the path but not the shortest path.
-// Dzaky example
+// Code example
 // Cell cur = start;
 // visited.push_back(cur);
 // while(cur != goal)
@@ -116,7 +114,13 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
 //   cur = nx;
 // }
 
-// working solution for map 1 and map 2
+// Simple DFS - working solution for map 1 and map 2
+//lets try simple DFS
+/* Steps
+1. if the current cell is the target - stop
+2. add all in bounds, non visited, non walls neighbours to stack
+3. repeat from step 1 until stack is empty or target found
+*/
 /*
   int dr[] = {0, -1, 0, 1};
   int dc[] = {-1, 0, 1, 0};
@@ -155,7 +159,7 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
 */
 
 
-// Working solution for all 3 maps
+// Working solution for all 3 maps - Djikstra's algorithm
 // map 1 - Visited=36  PathLen=10
 // map 2 - Visited=35  PathLen=14
 // map 3 - Visited=272  PathLen=46

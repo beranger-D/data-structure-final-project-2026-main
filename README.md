@@ -1,4 +1,10 @@
 This is my solution to this project
+submission/1output.txt - solution for soal1
+submission/2output.txt - solution for soal2
+submission/3output.txt - solution for soal3
+
+To compile: `g++ -O2 -std=c++17 solution.cpp -o solution `
+To use executable: `./solution ../maps/soal1.txt output.txt`
 
 # Pathfinding Visualizer — Data Structures Final Project 2026
 
