@@ -1,3 +1,5 @@
+This is my solution to this project
+
 # Pathfinding Visualizer — Data Structures Final Project 2026
 
 Final project for the Data Structures course (IUP). You write a C++ pathfinding
