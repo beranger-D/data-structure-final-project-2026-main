@@ -37,42 +37,25 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
   //
   // =========================================================================
   
-
-  ///////////////////////
-  // Djikstra's algorithm
-
+  /////////////////
+  // BFS
 
   // for cycling the neighbouring cells
-  int dr[] = {1, 0, -1, 0};
-  int dc[] = {0, 1, 0, -1};
-
-
+  int dr[] = {0, -1, 0, 1};
+  int dc[] = {-1, 0, 1, 0};
   int rows = grid.size();
   int cols = grid.at(0).size();
-  
-  // Compare operator to sort the cells in the priority queue
-  struct Compare { 
-    bool operator()(const pair<int,Cell>& a, const pair<int,Cell>& b) const {
-      return a.first > b.first; // smaller weight = higher priority
-    }
-  };
+  vector<vector<bool>> discovered(rows, vector<bool>(cols, false));
 
-  // Priority queue stores a pair containing the cell weight and the cell
-  priority_queue<pair<int, Cell>, vector<pair<int, Cell>>, Compare> pq;
-  vector<vector<int>> distance(rows, vector<int>(cols, INT_MAX));
+  queue<Cell> queue;
+  queue.push(start);
+  discovered[start.first][start.second] = true;
 
-  pq.push({0, start});
-  distance[start.first][start.second] = 0;
 
-  while(!pq.empty())
+  while(!queue.empty())
   {
-    pair<int, Cell> element = pq.top();
-    pq.pop();
-
-    int cost = element.first;
-    Cell cur = element.second;
-
-    if(cost != distance[cur.first][cur.second]) continue;
+    Cell cur = queue.front();
+    queue.pop();
 
     visited.push_back(cur);
 
@@ -82,15 +65,13 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
     {
       int nr = cur.first + dr[x];
       int nc = cur.second + dc[x];
-      if(inBounds(nr,nc) && !isWall(grid[nr][nc]))
+      if(inBounds(nr,nc) && !isWall(grid[nr][nc]) && !discovered[nr][nc])
       {
-        int newCost = cost + cellCost(grid[nr][nc]);
-        if(newCost < distance[nr][nc])
-        {
-          distance[nr][nc] = newCost;
-          came_from[{nr, nc}] = cur; 
-          pq.push({newCost, {nr, nc}});
-        }
+        Cell nx = {nr, nc};
+        came_from[nx] = cur; 
+        discovered[nr][nc] = true;
+        queue.push(nx);
+        
       }
     }
   }
@@ -159,6 +140,48 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
 */
 
 
+
+// BFS for map 2
+/*
+  int dr[] = {0, -1, 0, 1};
+  int dc[] = {-1, 0, 1, 0};
+  int rows = grid.size();
+  int cols = grid.at(0).size();
+  vector<vector<bool>> discovered(rows, vector<bool>(cols, false));
+
+  queue<Cell> queue;
+  queue.push(start);
+  discovered[start.first][start.second] = true;
+
+
+  while(!queue.empty())
+  {
+    Cell cur = queue.front();
+    queue.pop();
+
+    visited.push_back(cur);
+
+    if(cur == goal) break;
+
+    for(int x = 0; x < 4; x++)
+    {
+      int nr = cur.first + dr[x];
+      int nc = cur.second + dc[x];
+      if(inBounds(nr,nc) && !isWall(grid[nr][nc]) && !discovered[nr][nc])
+      {
+        Cell nx = {nr, nc};
+        came_from[nx] = cur; 
+        discovered[nr][nc] = true;
+        queue.push(nx);
+        
+      }
+    }
+  }
+*/
+
+
+
+
 // Working solution for all 3 maps - Djikstra's algorithm
 // map 1 - Visited=36  PathLen=10
 // map 2 - Visited=35  PathLen=14
@@ -216,7 +239,9 @@ vector<Cell> solve(vector<vector<char>>& grid, Cell start, Cell goal){
 
 
 
-//  g++ -O2 -std=c++17 solution.cpp -o solution ./solution ../maps/soal1.txt output.txt
+//  g++ -O2 -std=c++17 solution.cpp -o solution 
+//  ./solution ../maps/soal1.txt output.txt
 
 
-
+// For report:
+// introduce participants, data structure used for the algorithms, explain which solutions used for each pb and do comparative analysis
