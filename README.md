@@ -1,3 +1,6 @@
+Report for the project:
+https://docs.google.com/document/d/1rAakRFghR7IjdtoGULN3Rkan1EMWEAWHO4S_aVhdyhA/edit?usp=sharing
+
 This is my solution to this project
 
 submission/1output.txt - solution for soal1
